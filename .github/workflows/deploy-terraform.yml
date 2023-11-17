@@ -20,7 +20,6 @@ jobs:
       - name: Composite Action for Deploying Terraform Resources
         uses: ./composite-action/action
         with:
-          do_token: ${{ secrets.DO_TOKEN }}
           aws_access_key_id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}

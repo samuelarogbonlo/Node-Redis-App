@@ -8,10 +8,13 @@ inputs:
     description: 'The terraform plan for the the environment infrastructure to be deployed'
     required: true
   aws_access_key_id:
-    description: 'S3 access keys id used by terraform and service like sync check, Deploy Snapshot Service etc'
+    description: 'AWS access keys id used by terraform to deploy infrastructure'
     required: true
   aws_secret_access_key:
-    description: 'S3 secret access keys used by terraform and service like sync check, Deploy Snapshot Service etc'
+    description: 'AWS secret access keys used by terraform deploy infrastructure'
+    required: true
+  aws_region:
+    description: 'AWS region'
     required: true
   working_directory:
     description: 'The working Directory'
@@ -30,15 +33,12 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.aws_access_key_id }}
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
-        aws-region: ${{ inputs.aws-region }}    
+        aws-region: ${{ inputs.aws_region }}    
 
     - name: Terraform Init
       run: terraform init
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      env:
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
 
     - name: Terraform Validate
       shell: bash
