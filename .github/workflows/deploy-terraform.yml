@@ -18,7 +18,7 @@ jobs:
        
         # Using Custom Composite action in ./composite-action/action folder
       - name: Composite Action for Deploying Terraform Resources
-        uses: ./composite-action/terraform
+        uses: ./composite-action/action
         with:
           do_token: ${{ secrets.DO_TOKEN }}
           aws_access_key_id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
