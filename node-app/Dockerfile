@@ -14,7 +14,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 COPY . .
 
-
 FROM node:${NODE_VERSION}-alpine
 
 # Use production node environment
@@ -22,9 +21,7 @@ ENV NODE_ENV production
 
 WORKDIR /usr/src/app
 
-
 COPY --from=builder /usr/src/app .
-
 
 USER node
 

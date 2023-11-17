@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
         working-directory: node-app
     steps:
       - name: Checkout code
@@ -52,10 +51,8 @@ jobs:
       - name: Build image and push to ECR
         uses: docker/build-push-action@v5
         with:
-          context: .
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ github.ref == 'refs/heads/main' }}
           platforms: ${{ (github.ref == 'refs/heads/main') && 'linux/amd64,linux/arm64' || 'linux/arm64' }}
-
 
