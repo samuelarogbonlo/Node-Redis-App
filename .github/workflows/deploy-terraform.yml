@@ -1,0 +1,71 @@
+name: Deploy terraform infra
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  deploy-infra:
+    name: ECS Infra
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: make init_all
+      
+      - name: Terraform Validate
+        run: make validate_all
+      
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request'
+        run: make plan_all
+        id: plan
+
+      - name: Terraform Plan Output
+        if: github.event_name == 'pull_request'
+        run: terraform show -no-color tfplan
+        id: plan_output
+
+      - name: Create or Update Comment
+        if: github.event.pull_request.draft == false &&
+            github.event_name == 'pull_request' &&
+            !contains(steps.plan.outputs.stdout, 'No changes. Infrastructure is up-to-date.')
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            #### Terraform Plan 📖
+
+            <details><summary>Show Plan</summary>
+
+            ```
+            ${{ steps.plan_output.outputs.stdout }}
+            ```
+
+            </details>
+          edit-mode: replace
+      
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: make deploy_all
