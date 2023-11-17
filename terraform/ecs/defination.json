@@ -1,0 +1,54 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "secretOptions": null,
+            "options": {
+                "awslogs-group": "/ecs/lifinance",
+                "awslogs-region": "us-east-2",
+                "awslogs-stream-prefix": "ecs"
+            }
+        },
+        "portMappings": [
+            {
+                "hostPort": 4005,
+                "protocol": "tcp",
+                "containerPort": 4005
+            }
+        ],
+        "image": "166884460193.dkr.ecr.us-east-2.amazonaws.com/lifinance:edge",
+        "name": "lifinance-node-app",
+        "environment": [
+            {
+                "name": "PORT",
+                "value": "4005"
+            }, 
+            {
+                "name": "AWS_LOG_GROUP_AND_STREAM",
+                "value": "lifinance"
+            },
+            {
+                "name": "POSTGRES_USER",
+                "value": "${db_user_name}"
+            }
+        ],
+        "secrets": [
+            {
+                "name": "POSTGRES_PASSWORD",
+                "valueFrom": "${posgress_password_arn}"
+            },
+            {
+                "name": "POSTGRES_URL",
+                "valueFrom": "${posgress_endpoint_arn}"
+            },
+            {
+                "name": "REDIS_PASSWORD",
+                "valueFrom": "${redis_token_arn}"
+            },
+            {
+                "name": "REDIS_URL",
+                "valueFrom": "${redis_endpoint_arn}"
+            }
+        ]
+    }
+]
