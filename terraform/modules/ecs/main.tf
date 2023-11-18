@@ -46,12 +46,13 @@ resource "aws_ecs_task_definition" "lifinance-task-definition" {
   cpu       = 1024
   memory    = 2048
   execution_role_arn = aws_iam_role.lifinance-role.arn
-  container_definitions = templatefile("defination.json", {
+  container_definitions = templatefile("container-definition/definition.json", {
     posgress_password_arn = var.posgress_password_arn
     posgress_endpoint_arn = var.posgress_endpoint_arn
     redis_token_arn = var.redis_auth_arn
     redis_endpoint_arn = var.redis_endpoint_arn
     db_user_name = var.db_user_name
+    awslogs_group = aws_cloudwatch_log_group.lifinance-app-log-group.name
   })
 }
 

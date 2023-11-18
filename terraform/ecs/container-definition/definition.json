@@ -4,8 +4,8 @@
             "logDriver": "awslogs",
             "secretOptions": null,
             "options": {
-                "awslogs-group": "/ecs/lifinance",
-                "awslogs-region": "us-east-2",
+                "awslogs-group": "${awslogs_group}",
+                "awslogs-region": "eu-west-1",
                 "awslogs-stream-prefix": "ecs"
             }
         },
@@ -16,7 +16,7 @@
                 "containerPort": 4005
             }
         ],
-        "image": "166884460193.dkr.ecr.us-east-2.amazonaws.com/lifinance:edge",
+        "image": "public.ecr.aws/e9f7q1d2/lifinance:edge",
         "name": "lifinance-node-app",
         "environment": [
             {

@@ -9,6 +9,7 @@ const client = redis.createClient({
   password: redis_password,
 });
 
+
 console.log(client)
 
 client.on("error", (err) => {

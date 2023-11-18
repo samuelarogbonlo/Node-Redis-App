@@ -1,6 +1,5 @@
 const User = require("../models/data.model");
 const redisClient = require("../services/redis");
-const cloudWatch = require("../services/cloudwatch");
 const client = require("prom-client");
 
 const databaseQueryCounter = new client.Counter({
@@ -33,7 +32,7 @@ exports.addData = async (req, res) => {
     const redisKey = `userData:${email}`;
     await redisClient.set(redisKey, JSON.stringify(newData), "EX", 3600);
 
-    cloudWatch.logToCloudWatch("Created a new user data");
+    console.log("Created a new user data");
 
     return res.status(201).json(newData);
   } catch (err) {
@@ -49,7 +48,7 @@ exports.getData = async (req, res) => {
 
     const cached_data = await redisClient.get(redisKey);
     console.log(cached_data, "from cache");
-    cloudWatch.logToCloudWatch("Fetch a new user data from cache");
+    console.log("Fetch a new user data from cache");
     cacheHitCounter.inc();
 
     if (cached_data) {
@@ -57,7 +56,7 @@ exports.getData = async (req, res) => {
     } else {
       const database_data = await User.findOne({ where: { email } });
       console.log("from db");
-      cloudWatch.logToCloudWatch("Fetch a new user data from db");
+      console.log("Fetch a new user data from db");
       databaseQueryCounter.inc();
       if (database_data) {
         await redisClient.set(
@@ -75,3 +74,4 @@ exports.getData = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+

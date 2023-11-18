@@ -16,7 +16,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [var.source_Security_group]
+    cidr_blocks     = ["0.0.0.0/0", "10.0.0.0/16"]
   }
 
   tags = {
