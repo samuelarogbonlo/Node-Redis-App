@@ -26,7 +26,7 @@ jobs:
       - name: Login to ECR
         uses: docker/login-action@v3
         with:
-          registry: 243537103529.dkr.ecr.eu-west-1.amazonaws.com
+          registry: public.ecr.aws
           username: ${{ secrets.AWS_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -37,7 +37,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: 243537103529.dkr.ecr.eu-west-1.amazonaws.com/lifinance
+          images: public.ecr.aws/e9f7q1d2/lifinance
           flavor: |
             latest=false
           tags: |
@@ -54,33 +54,29 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           platforms: ${{ (github.ref == 'refs/heads/main') && 'linux/amd64,linux/arm64' || 'linux/arm64' }}
 
-  # deploy-to-ecs:
-  #   name: Deploy to Amazon ECS
-  #   runs-on: ubuntu-latest  
-  #   steps:
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ secrets.AWS_REGION }}
+  deploy-to-ecs:
+    name: Deploy to Amazon ECS
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-  #     # - name: Download task definition file
-  #     #   run: |
-  #     #     aws ecs describe-task-definition --task-definition lifebit-td --query taskDefinition > task-definition.json
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: lifinance-node-app
+          image: ${{ secrets.IMAGE_TAG }}:${{ github.sha }}
 
-  #     - name: Fill in the new image ID in the Amazon ECS task definition
-  #       id: task-def
-  #       uses: aws-actions/amazon-ecs-render-task-definition@v1
-  #       with:
-  #         task-definition: task-definition.json
-  #         container-name: lifinance-node-app
-  #         image: ${{ secrets.IMAGE_TAG }}:${{ github.sha }}
-
-  #     - name: Deploy Amazon ECS task definition
-  #       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-  #       with:
-  #         task-definition: ${{ steps.task-def.outputs.task-definition }}
-  #         service: ${{secrets.ECS_SERVICE}}
-  #         cluster: ${{secrets.ECS_CLUSTER}}
-  #         wait-for-service-stability: true     
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: terraform/ecs/container-definition
+          service: ${{secrets.ECS_SERVICE}}
+          cluster: ${{secrets.ECS_CLUSTER}}
+          wait-for-service-stability: true     
