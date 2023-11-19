@@ -7,6 +7,6 @@ output "db_user_name" {
 }
 
 output "db_password_arn" {
-    value = aws_secretsmanager_secret_version.db.arn
-  
+  value = aws_secretsmanager_secret_version.db.arn
+
 }

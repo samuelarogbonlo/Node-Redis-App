@@ -8,12 +8,12 @@ resource "aws_iam_policy" "lifinance-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-      Effect = "Allow",
-      Action = [
-        "elb:*",
-      ],
-      Resource = "*"
-    }
+        Effect = "Allow",
+        Action = [
+          "elb:*",
+        ],
+        Resource = "*"
+      }
     ]
   })
 }

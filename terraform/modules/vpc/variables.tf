@@ -1,19 +1,19 @@
 variable "env_code" {
-    description = "Name of the virtual Private cloud"
-    type        = string
+  description = "Name of the virtual Private cloud"
+  type        = string
 }
 
 variable "vpc_cidr" {
-    description = "virtual Private cloud Cidr Blocks"
-    type        = string
+  description = "virtual Private cloud Cidr Blocks"
+  type        = string
 }
 
 variable "private_cidr" {
-    description = "AWS private subnet Cidr Blocks"
-    type        = list
+  description = "AWS private subnet Cidr Blocks"
+  type        = list(any)
 }
 
 variable "public_cidr" {
-    description = "AWS private subnet Cidr Blocks"
-    type        = list
+  description = "AWS private subnet Cidr Blocks"
+  type        = list(any)
 }

@@ -14,12 +14,12 @@ variable "replication_group_id" {
 }
 
 variable "source_Security_group" {
-  
+
 }
 
 variable "vpc_id" {
-  
+
 }
 variable "subnet_ids" {
-  
+
 }

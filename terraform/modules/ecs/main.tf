@@ -41,29 +41,29 @@ resource "aws_ecs_cluster_capacity_providers" "lifinance-cp" {
 }
 
 resource "aws_ecs_task_definition" "lifinance-task-definition" {
-  family = "lifinance-td"
-  network_mode = "awsvpc"
-  cpu       = 1024
-  memory    = 2048
+  family             = "lifinance-td"
+  network_mode       = "awsvpc"
+  cpu                = 1024
+  memory             = 2048
   execution_role_arn = aws_iam_role.lifinance-role.arn
   container_definitions = templatefile("container-definition/definition.json", {
     posgress_password_arn = var.posgress_password_arn
     posgress_endpoint_arn = var.posgress_endpoint_arn
-    redis_token_arn = var.redis_auth_arn
-    redis_endpoint_arn = var.redis_endpoint_arn
-    db_user_name = var.db_user_name
-    awslogs_group = aws_cloudwatch_log_group.lifinance-app-log-group.name
+    redis_token_arn       = var.redis_auth_arn
+    redis_endpoint_arn    = var.redis_endpoint_arn
+    db_user_name          = var.db_user_name
+    awslogs_group         = aws_cloudwatch_log_group.lifinance-app-log-group.name
   })
 }
 
 resource "aws_ecs_service" "lifinance-service" {
-  name            = "lifinance"
-  cluster         = aws_ecs_cluster.lifinance-cluster.id
-  task_definition = aws_ecs_task_definition.lifinance-task-definition.arn
-  desired_count   = 1
-  deployment_maximum_percent         = 200
+  name                       = "lifinance"
+  cluster                    = aws_ecs_cluster.lifinance-cluster.id
+  task_definition            = aws_ecs_task_definition.lifinance-task-definition.arn
+  desired_count              = 1
+  deployment_maximum_percent = 200
   depends_on = [
-    aws_iam_policy.lifinance-policy  
+    aws_iam_policy.lifinance-policy
   ]
 
   load_balancer {
@@ -73,8 +73,8 @@ resource "aws_ecs_service" "lifinance-service" {
   }
 
   network_configuration {
-    subnets = var.private_subnets
-    security_groups = [aws_security_group.private.id]
+    subnets          = var.private_subnets
+    security_groups  = [aws_security_group.private.id]
     assign_public_ip = true
   }
 }
@@ -94,13 +94,13 @@ resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
   service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
- 
+
   target_tracking_scaling_policy_configuration {
-   predefined_metric_specification {
-     predefined_metric_type = "ECSServiceAverageCPUUtilization"
-   }
- 
-   target_value       = 60
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+
+    target_value = 60
   }
 }
 

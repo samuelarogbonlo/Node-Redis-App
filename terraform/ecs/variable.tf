@@ -1,6 +1,6 @@
 variable "env_code" {
-    default = "production"
-    type = string
-    description = ""
+  default     = "production"
+  type        = string
+  description = "production tag"
 }
 

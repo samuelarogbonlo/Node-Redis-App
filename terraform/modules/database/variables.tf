@@ -2,16 +2,16 @@ variable "subnet_ids" {
 }
 
 variable "env_code" {
-    type = string
-    description = "string"
+  type        = string
+  description = "string"
 }
 
 variable "vpc_id" {
-    type = string
-    description = "value"
+  type        = string
+  description = "value"
 }
 
 variable "source_Security_group" {
 
-    description = "value"
+  description = "value"
 }

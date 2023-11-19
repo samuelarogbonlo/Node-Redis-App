@@ -11,6 +11,6 @@ output "subnet_id_private" {
 }
 
 output "vpc_cidr" {
-  value = var.vpc_cidr
+  value     = var.vpc_cidr
   sensitive = true
 }
