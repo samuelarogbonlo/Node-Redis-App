@@ -8,10 +8,10 @@ This repository houses the codebase for the Lifinance ECS (Elastic Container Ser
 Lifinance's infrastructure is designed for high efficiency and scalability. The major components include:
 
 - *ECS Cluster:* The core of our infrastructure, handling a service that manages numerous tasks. Each task encompasses a container dedicated to running the NodeJS application.
-- Load Balancer: Ensures even distribution of incoming requests across tasks, optimizing response times and resource utilization.
-- PostgreSQL Database: Provides robust data storage for the NodeJS application, ensuring data integrity and fast access.
-- Redis: Employed for efficient caching, enhancing performance by reducing data retrieval times.
-- CloudWatch: Integrated for comprehensive logging, enabling real-time monitoring and alerting for system health and performance.
+- *Load Balancer:* Ensures even distribution of incoming requests across tasks, optimizing response times and resource utilization.
+- *PostgreSQL Database:* Provides robust data storage for the NodeJS application, ensuring data integrity and fast access.
+- *Redis:* Employed for efficient caching, enhancing performance by reducing data retrieval times.
+- *CloudWatch:* Integrated for comprehensive logging, enabling real-time monitoring and alerting for system health and performance.
 
 ## Continous Integration / Continous Deployment
 
@@ -19,35 +19,28 @@ Lifinance's infrastructure is designed for high efficiency and scalability. The 
 Our CI/CD pipeline, facilitated by GitHub Actions, automates and streamlines our deployment process. Triggered by pushes to the main branch, it encompasses:
 
 
-- Dockerfile Linting: Ensures adherence to best practices and standards in our Dockerfile configurations.
-- Docker Image Building: Constructs a Docker image from the application and pushes it to AWS ECR (Elastic Container Registry).
-- Task Definition Update: Retrieves the task definition from AWS and updates it with the latest ECR image.
-- Terraform Script Deployment: Executes and deploys the infrastructure as code via Terraform.
+- *Dockerfile Linting:* Ensures adherence to best practices and standards in our Dockerfile configurations.
+- *Docker Image Building:* Constructs a Docker image from the application and pushes it to AWS ECR (Elastic Container Registry).
+- *Task Definition Update:* Retrieves the task definition from AWS and updates it with the latest ECR image.
+- *Terraform Script Deployment:* Executes and deploys the infrastructure as code via Terraform.
 
-# How to deploy the infrastructure
+# How To Deploy The Infrastructure ?
 
 - State-Backend Setup:
 
-   - Get to the local terminal
+   - Get to your local terminal
    - Navigate to the state-backend directory with `cd terraform/state-backend`.
    - Run `terraform init`.
    - Run `terraform apply`.
 
 Note: Ensure uniqueness of the state bucket. If a `bucket already exists` error occurs, modify the bucket value in `main.tf` and update `provider.tf` in both ecs and vpc subdirectories.
 
-- Infrastructure Initialization:
+- Infrastructure Initialization, Planning & Applying:
 
    - Run `cd ..` to return to the root directory. 
    - Run `make init_all` to initialize Terraform scripts for the infrastructure.
-
-- Infrastructure Planning:
-
-  - Run `make plan_all` to review the planned infrastructure changes.
-
-- Applying Infrastructure Code:
-
-  - Run `make apply_all` to apply the Terraform code and set up the infrastructure.
-
+   - Run `make plan_all` to review the infrastructure details before being deployed.
+   - Run `make apply_all` to apply the Terraform code and set up the infrastructure.
 
 # Why ECS for Application Deployment ?
 
