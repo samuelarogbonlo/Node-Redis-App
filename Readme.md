@@ -21,7 +21,6 @@ Our CI/CD pipeline, facilitated by GitHub Actions, automates and streamlines our
 
 - *Dockerfile Linting:* Ensures adherence to best practices and standards in our Dockerfile configurations.
 - *Docker Image Building:* Constructs a Docker image from the application and pushes it to AWS ECR (Elastic Container Registry).
-- *Task Definition Update:* Retrieves the task definition from AWS and updates it with the latest ECR image.
 - *Terraform Script Deployment:* Executes and deploys the infrastructure as code via Terraform.
 
 # How To Deploy The Infrastructure ?
@@ -33,7 +32,7 @@ Our CI/CD pipeline, facilitated by GitHub Actions, automates and streamlines our
    - Run `terraform init`.
    - Run `terraform apply`.
 
-Note: Ensure uniqueness of the state bucket. If a `bucket already exists` error occurs, modify the bucket value in `main.tf` and update `provider.tf` in both ecs and vpc subdirectories.
+Note: Ensure uniqueness of the state bucket. If a `bucket already exists` error occurs, modify the bucket value in `main.tf` and and the `provider.tf` in both ecs and vpc subdirectories.
 
 - Infrastructure Initialization, Planning & Applying:
 
