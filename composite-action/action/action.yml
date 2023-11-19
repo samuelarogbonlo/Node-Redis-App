@@ -1,7 +1,7 @@
 name: Custom Composite action to deploy terraform resources
 
 description: |
-  This action deploys the Forest infrastructure with Terraform
+  This action deploys the Lifinance  Deployment infrastructure with Terraform
 
 inputs:
   environment:
@@ -101,13 +101,7 @@ runs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-        if grep -q 'No changes.' tfplan; then
-          echo "No changes detected."
-        else
-          echo "Changes detected. Redeploying everything..."
-          terraform destroy -auto-approve -input=false
           terraform apply -auto-approve -input=false
-        fi
       shell: bash
       working-directory: ${{ inputs.working_directory }}
 

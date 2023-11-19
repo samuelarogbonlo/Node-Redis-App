@@ -1,23 +1,71 @@
 # Lifinance  Deployment infrastructure task
 
-This repository contains the code for the Lifinance ECS infrastructure.
+This repository houses the codebase for the Lifinance ECS (Elastic Container Service) infrastructure, pivotal in deploying and managing our NodeJS-based application.
 
-## Infrastructure overview
+![ecs](image/ecs.png)
 
-The setup includes an ECS cluster that operates one service. This service manages tasks, each containing only a container for the NodeJS application. A load balancer efficiently distributes incoming requests among these tasks. Additionally, the architecture incorporates a postgres database for data storage related to the NodeJS app and Redis for caching purposes.
+# Infrastructure Overview
+Lifinance's infrastructure is designed for high efficiency and scalability. Key components include:
+
+- ECS Cluster: The core of our infrastructure, handling a service that manages numerous tasks. Each task encompasses a container dedicated to running the NodeJS application.
+Load Balancer: Ensures even distribution of incoming requests across tasks, optimizing response times and resource utilization.
+
+- PostgreSQL Database: Provides robust data storage for the NodeJS application, ensuring data integrity and fast access.
+- Redis: Employed for efficient caching, enhancing performance by reducing data retrieval times.
+- CloudWatch: Integrated for comprehensive logging, enabling real-time monitoring and alerting for system health and performance.Infrastructure Overview
+Lifinance's infrastructure is designed for high efficiency and scalability. Key components include:
+
 
 ## Continous integration / Continous deployment
 
 
-The CI/CD pipeline is setup with Github actions. The pipeline is triggered by a push to the master branch on Github and performs the following tasks.
+Our CI/CD pipeline, facilitated by GitHub Actions, automates and streamlines our deployment process. Triggered by pushes to the main branch, it encompasses:
 
-- The pipeline runs Dockerfile linting. 
 
-- The pipeline builds a docker image from the application and pushes to docker hub
+- Dockerfile Linting: Ensures adherence to best practices and standards in our Dockerfile configurations.
+- Docker Image Building: Constructs a Docker image from the application and pushes it to AWS ECR (Elastic Container Registry).
+- Task Definition Update: Retrieves the task definition from AWS and updates it with the latest ECR image.
+- Terraform Script Deployment: Executes and deploys the infrastructure as code via Terraform.
 
-- The pipeline downloads the task definition from AWS and updates it with the latest docker image.
+# How to deploy the infrastructure
 
-- The pipeline deploys a new version of the application to ECS.
 
-The ECS deployment is a rolling deployment. ECS sets up a new task and deploys the application into that task. Then, it reroutes the traffic to the new task and drains all connections on the old task.
+- State-Backend Setup:
+
+   - Navigate to `terraform/state-backend`.
+   - Execute `terraform init` and `terraform apply`.
+   - Note: Ensure uniqueness of the state bucket. If a `bucket already exists` error occurs, modify the bucket value in `main.tf` and update `provider.tf` in both ecs and vpc subdirectories.
+
+- Infrastructure Initialization:
+
+   - Return to the root directory.
+   - Run `make init_all` to initialize Terraform scripts for the infrastructure.
+
+- Infrastructure Planning:
+
+  - Execute `make plan_all` to review the planned infrastructure changes.
+
+- Applying Infrastructure Code:
+
+   - Run make apply_all to apply the Terraform code and set up the infrastructure.
+
+
+# Why ECS for Application Deployment
+
+Amazon Elastic Container Service (ECS) is an ideal choice for deploying the Lifinance application for several reasons, especially when considering its ease of use and scalability:
+
+- Ease of Deployment
+ECS stands out for its simplicity and ease of deployment. It is less complex compared to Kubernetes-based solutions like EKS, making it more accessible for teams with varying levels of expertise in container orchestration. This simplicity accelerates the deployment process, enabling the Lifinance team to launch their application quickly and efficiently.
+
+- Seamless Scalability
+One of the key strengths of ECS is its seamless scalability. It is well-suited for projects that start small and grow over time. ECS can effortlessly scale from managing a few containers to thousands, making it a perfect fit for Lifinance as it expands its operations and user base. This scalability ensures that the infrastructure evolves in tandem with the application's needs, without requiring significant architectural changes.
+
+- Cost-Effectiveness for Varied Load Patterns
+ECS is particularly cost-effective for applications with variable load patterns, like Lifinance. It allows for efficient resource utilization, scaling up to meet high demand and scaling down during quieter periods. This dynamic scalability can lead to substantial cost savings, especially for applications that do not require the consistent high-resource allocation that more complex orchestration systems might necessitate.
+
+- Simplified Management and Maintenance
+The service abstracts and manages much of the underlying infrastructure, simplifying container management. This abstraction reduces the maintenance burden on the Lifinance team, allowing them to focus more on application development and less on operational overhead.
+
+In conclusion, Amazon ECS offers an ideal blend of simplicity, scalability, and integration, making it a superior choice for the Lifinance application. Its ease of deployment and maintenance, coupled with the ability to efficiently scale with the application's growth, provides a flexible and cost-effective solution for modern containerized application deployment.Why ECS for Application Deployment
+Amazon Elastic Container Service (ECS) is an ideal choice for deploying the Lifinance application for several reasons, especially when considering its ease of use and scalability:
 
