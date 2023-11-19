@@ -106,6 +106,7 @@ resource "aws_iam_policy" "secret_manager_policy" {
   })
 }
 
+# The ecs role
 resource "aws_iam_role" "lifinance-role" {
   name = "lifinance-role"
 

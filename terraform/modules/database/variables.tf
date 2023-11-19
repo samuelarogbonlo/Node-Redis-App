@@ -1,17 +1,17 @@
 variable "subnet_ids" {
+  description = "The privte subnet id"
 }
 
 variable "env_code" {
   type        = string
-  description = "string"
+  description = "The production tag"
 }
 
 variable "vpc_id" {
   type        = string
-  description = "value"
+  description = "The Vpc id"
 }
 
 variable "source_Security_group" {
-
-  description = "value"
+  description = "The allowed sg to talk to the database"
 }

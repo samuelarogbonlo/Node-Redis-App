@@ -2,7 +2,7 @@ variable "env_code" {
   description = "Name of the virtual Private cloud"
   type        = string
   sensitive   = true
-  default     = "segun-vpc"
+  default     = "sam-vpc"
 }
 
 variable "vpc_cidr" {
