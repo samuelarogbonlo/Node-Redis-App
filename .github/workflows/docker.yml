@@ -4,9 +4,13 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'node-app/**'  
   push:
     branches:
       - main
+    paths:
+        - 'node-app/**'   
   workflow_dispatch:
 
 jobs:
