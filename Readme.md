@@ -22,6 +22,7 @@ Our CI/CD pipeline, facilitated by GitHub Actions, automates and streamlines our
 - *Dockerfile Linting:* Ensures adherence to best practices and standards in our Dockerfile configurations.
 - *Docker Image Building:* Constructs a Docker image from the application and pushes it to AWS ECR (Elastic Container Registry).
 - *Terraform Script Deployment:* Executes and deploys the infrastructure as code via Terraform.
+- A terraform pull request write to show plan of changes to be applied
 
 # How To Deploy The Infrastructure ?
 
