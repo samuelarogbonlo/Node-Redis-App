@@ -28,7 +28,7 @@ app.get("/metrics", async (req, res) => {
 });
 
 app.listen(4005, async () => {
-  console.log("Server is Running on localhost://4005");
+  console.log("Server is Running on Port:4005");
 
   try {
     await sequelize.authenticate();
