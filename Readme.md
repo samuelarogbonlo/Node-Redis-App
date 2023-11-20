@@ -2,7 +2,6 @@
 
 This repository houses the codebase for the Lifinance ECS (Elastic Container Service) infrastructure, pivotal in deploying and managing our NodeJS-based application.
 
-![ecs](image/ecs.png)
 
 # Infrastructure Overview
 Lifinance's infrastructure is designed for high efficiency and scalability. The major components include:
