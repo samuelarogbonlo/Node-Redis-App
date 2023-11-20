@@ -1,12 +1,11 @@
 const redis = require("redis");
 
 const redis_password = process.env.REDIS_PASSWORD;
-const redis_url = process.env.REDIS_URL;
+const url = `redis://${process.env.REDIS_URL}`;
 
 const client = redis.createClient({
-  host: redis_url,
-  port: 6379,
-  password: redis_password,
+    url,
+    password: redis_password
 });
 
 
