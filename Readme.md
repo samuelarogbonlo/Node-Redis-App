@@ -64,3 +64,13 @@ In conclusion, Amazon ECS offers an ideal blend of simplicity, scalability, and 
 
 ## Author
 - Samuel Arogbonlo - [GitHub](https://github.com/samuelarogbonlo)
+
+## Collaborators
+- [YOUR NAME HERE] - Feel free to contribute to the codebase by resolving any open issues, refactoring, adding new features, writing test cases or any other way to make the project better and helpful to the community. Feel free to fork and send pull requests.
+
+## Hire me
+Looking for a Snr DevOps Engineer to build your next infrastructure in Lifinance. Get in touch: [sbayo971@gmail.com](mailto:sbayo971@gmail.com)
+
+## License
+
+The MIT License (http://www.opensource.org/licenses/mit-license.php)
