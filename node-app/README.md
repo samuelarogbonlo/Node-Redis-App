@@ -9,7 +9,7 @@
    
    PORT
 
-   MONGO_URL
+   POSTGRES_URL
 
 4. Start the development server with the following command: 
  ```bash
@@ -20,11 +20,3 @@
 ```bash
     $ npm run start
  ```
-
-
- docker run \
-  --name postgres \
-  --detach \
-  --env POSTGRES_PASSWORD=segun123 \
-  --publish=5432:5432 \
-  postgres:latest
