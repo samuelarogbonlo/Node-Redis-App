@@ -39,6 +39,7 @@ resource "aws_db_instance" "rds-pgs" {
   identifier                          = var.env_code
   allocated_storage                   = 10
   engine                              = "postgres"
+  db_name                             = "postgres"
   engine_version                      = "15.3"
   instance_class                      = "db.t3.micro"
   username                            = "lifinance_pro"
